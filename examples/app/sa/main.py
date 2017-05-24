@@ -8,6 +8,7 @@ from bokeh.models.widgets import PreText, Select
 from bokeh.plotting import figure
 from bokeh.models.widgets import Button
 from bokeh.events import ButtonClick, Pan
+from bokeh.models.ranges import Range1d
 
 apo_data = pd.read_csv(os.path.join(os.path.dirname(__file__), 'log_test_1hours.txt'), header=0,
                        names=['date', 'time', 'coill', 'coilr', 'rooml', 'roomr', 'attl', 'attr', 'tatt'],
@@ -50,8 +51,8 @@ def pan_event_hdlr(event):
 source = ColumnDataSource(data=dict(date_time=[], coill=[]))
 source.data = source.from_df(apo_data.iloc[::10000])
 
-
-ts1 = figure(plot_width=900, plot_height=400, x_axis_type='datetime')
+x_range = Range1d(apo_data.date_time.min(), apo_data.date_time.max(), bounds='auto')
+ts1 = figure(plot_width=900, plot_height=400, x_axis_type='datetime', x_range=x_range)
 ts1.line('date_time', 'coill', source=source)
 
 ts1.on_event(Pan, pan_event_hdlr)
