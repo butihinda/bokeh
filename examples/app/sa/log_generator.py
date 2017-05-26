@@ -40,7 +40,7 @@ def get_random_points(len):
 
     return data
 
-hours_n = 1
+hours_n = 24
 N = hours_n * 360000
 
 # np.random.rand(2, 3)
